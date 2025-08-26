@@ -55,6 +55,24 @@ class Database:
         (count,) = cur.fetchone()
         return int(count)
 
+    def list_waitlist(self) -> list[dict]:
+        cur = self._conn.execute(
+            "SELECT id, email, clinic_name, clinic_size, created_at FROM waitlist ORDER BY datetime(created_at) DESC"
+        )
+        rows = cur.fetchall()
+        result: list[dict] = []
+        for r in rows:
+            result.append(
+                {
+                    "id": r[0],
+                    "email": r[1],
+                    "clinicName": r[2],
+                    "clinicSize": r[3],
+                    "createdAt": r[4],
+                }
+            )
+        return result
+
 
 db = Database()
 
@@ -85,6 +103,11 @@ async def create_waitlist(entry: WaitlistEntry):
 @app.get("/api/waitlist/stats")
 async def waitlist_stats():
     return {"count": db.count_waitlist()}
+
+
+@app.get("/api/waitlist")
+async def waitlist_list():
+    return {"entries": db.list_waitlist()}
 
 
 # Serve the existing built UI under /
