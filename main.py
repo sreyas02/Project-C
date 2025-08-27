@@ -119,7 +119,7 @@ if os.path.isdir(PUBLIC_DIR):
 def run():
     import uvicorn
 
-    port = int(os.getenv("PORT", "5000"))
+    port = int(os.getenv("PORT", "8000"))
     uvicorn.run("main:app", host="0.0.0.0", port=port, reload=False)
 
 
