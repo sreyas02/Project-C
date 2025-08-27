@@ -7,9 +7,14 @@ import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Form, FormControl, FormField, FormItem, FormMessage } from "@/components/ui/form";
 import { useToast } from "@/hooks/use-toast";
-import { insertWaitlistSchema } from "@shared/schema";
-import { apiRequest } from "@/lib/queryClient";
 import { z } from "zod";
+
+const insertWaitlistSchema = z.object({
+  email: z.string().email("Please enter a valid email address"),
+  clinicName: z.string().min(1, "Clinic name is required"),
+  clinicSize: z.string().min(1, "Please select clinic size"),
+});
+import { apiRequest } from "@/lib/queryClient";
 import { CheckCircle, Shield } from "lucide-react";
 
 const formSchema = insertWaitlistSchema.extend({
