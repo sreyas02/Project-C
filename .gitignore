@@ -95,7 +95,7 @@ public
 tmp/
 temp/
 
-# Replit specific files
+# Replit specific files (but keep important ones)
 .replit
 .local/
 .config/
